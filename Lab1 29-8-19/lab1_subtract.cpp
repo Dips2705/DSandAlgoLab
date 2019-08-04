@@ -1,6 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
-int findSmaller(string str1, string str2) 
+int findMin(string str1, string str2) 
 { 
 
     int n1 = str1.length();
@@ -20,14 +20,26 @@ int findSmaller(string str1, string str2)
     } 
     return 0; 
 } 
-int main(){
-string ca;
-string cb;
+int main()
+{
+int t,p;
+cin>>t;
+string no1[t],no2[t];
+for(p=0;p<t;p++)
+{
+	cin>>no1[p];
+	cin>>no2[p];
+}
+for(p=0;p<t;p++)
+{
 
-cin>>ca;
-cin>>cb;
 
-    if(findSmaller(ca,cb))
+string ca=no1[p];
+string cb=no2[p];
+
+
+
+    if(findMin(ca,cb))
         cout<<"-";
 
 
@@ -172,6 +184,6 @@ if(ans.size()>0)
 	cout<<ans<<endl;
 else 
 	cout<<0<<endl;
-
+}
 return 0;
 }

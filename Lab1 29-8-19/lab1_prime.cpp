@@ -14,14 +14,22 @@ int prime(long long int n)
 
 int main()
 {
-	long long int n;
-	cout<<"Enter a number:\n";
-	cin>>n;
-	int p=prime(n);
-	if(p)
-		cout<<"Prime\n";
-	else
-		cout<<"Not Prime\n";
+	int t,i;
+	cin>>t;
+	long long int n[t];
+	for(i=0;i<t;i++)
+	{
+		cin>>n[i];
+	}
+	for(i=0;i<t;i++)
+	{
+		int p=prime(n[i]);
+		if(p)
+			cout<<"Prime\n";
+		else
+			cout<<"Not Prime\n";
+	}
+
 	return 0;
 }
 

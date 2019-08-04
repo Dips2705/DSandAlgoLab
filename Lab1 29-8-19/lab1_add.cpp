@@ -45,9 +45,18 @@ string sum_nos(string s1, string s2)
 
 int main() 
 { 
-    string str1 = "",str2="";
-    cout<<"Enter two numbers \n";
-    cin>>str1>>str2;
-    cout << sum_nos(str1, str2)<<endl; 
-    return 0; 
+    int n,i;
+    cin>>n;
+    string no1[n];
+    string no2[n];
+    for(i=0;i<n;i++)
+    {
+        cin>>no1[i];
+        cin>>no2[i];   
+    }
+    for(i=0;i<n;i++)
+    {
+        cout<<sum_nos(no1[i],no2[i])<<endl;
+    }
+    return n;
 } 

@@ -63,28 +63,36 @@ string multiply(string num1, string num2)
 } 
 
 int main() 
-{ 
-    string str1 = "",str2="";
-    cout<<"Enter two numbers \n";
-    cin>>str1>>str2;
-	
-	if((str1.at(0) == '-' || str2.at(0) == '-') && (str1.at(0) != '-' || str2.at(0) != '-' )) 
-		cout<<"-"; 
+{   
+	int n,i;
+    cin>>n;
+    string no1[n];
+    string no2[n];
+    for(i=0;i<n;i++)
+    {
+        cin>>no1[i];
+        cin>>no2[i];   
+    }
+    for(i=0;i<n;i++)
+	{
+		if((no1[i].at(0) == '-' || no2[i].at(0) == '-') && (no1[i].at(0) != '-' || no2[i].at(0) != '-' )) 
+			cout<<"-"; 
 
 
-	if(str1.at(0) == '-' && str2.at(0)!='-') 
-		{ 
-			str1 = str1.substr(1); 
-		} 
-		else if(str1.at(0) != '-' && str2.at(0) == '-') 
-		{ 
-			str2 = str2.substr(1); 
-		} 
-		else if(str1.at(0) == '-' && str2.at(0) == '-') 
-		{ 
-			str1 = str1.substr(1); 
-			str2 = str2.substr(1); 
-		} 
-	cout << multiply(str1, str2)<<endl; 
+		if(no1[i].at(0) == '-' && no2[i].at(0)!='-') 
+			{ 
+				no1[i] = no1[i].substr(1); 
+			} 
+			else if(no1[i].at(0) != '-' && no2[i].at(0) == '-') 
+			{ 
+				no2[i] = no2[i].substr(1); 
+			} 
+			else if(no1[i].at(0) == '-' && no2[i].at(0) == '-') 
+			{ 
+				no1[i] = no1[i].substr(1); 
+				no2[i] = no2[i].substr(1); 
+			} 
+		cout << multiply(no1[i], no2[i])<<endl; 
+	}
 	return 0; 
 } 
