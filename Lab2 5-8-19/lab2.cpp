@@ -29,7 +29,6 @@ void DelFirst()
 		struct Point *temp=head;
 		head=head->next;
 		free(temp);
-		cout<<0<<endl;
 	}
 	else 
 		cout<<-1<<endl;
@@ -47,7 +46,6 @@ void Del(int x,int y)
 			else 
 				prev->next=temp->next;
 			free(temp);
-			cout<<0<<endl;
 			return;
 		}
 		prev=temp;
@@ -86,6 +84,7 @@ bool search(int x,int y)
 void search(float d)
 {
 	struct Point *temp=head;
+	int cnt=0;
 	if(head==NULL)
 		cout<<-1<<endl;
 	else
@@ -94,10 +93,10 @@ void search(float d)
 		{
 			float f=(temp->x*temp->x + temp->y*temp->y);
 			if(f<=d*d)
-				cout<<"("<<temp->x<<","<<temp->y<<") ";
+				cnt++;
 			temp=temp->next;
 		}
-		cout<<endl;
+		cout<<cnt<<endl;
 	}
 }
 
