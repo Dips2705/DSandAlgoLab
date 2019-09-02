@@ -4,11 +4,11 @@ using namespace std;
 
 struct tree 
 {
-    long long i;
+    int i;
     tree * left,* right,* parent;
 };
 
-long long precedence(char c) 
+int precedence(char c) 
 { 
     if(c == '^') 
     return 3; 
@@ -44,13 +44,13 @@ int isop(char c)
 
 
 
-vector<long long > postfix(string s)
+vector<int > postfix(string s)
 {
-    vector<long long > S;
-    stack<long long> ev;
-    long long f=0,a;
+    vector<int > S;
+    stack<int> ev;
+    int f=0,a;
     ev.push('N');
-    for(long long i=0;i<s.length();i++)
+    for(int i=0;i<s.length();i++)
     {
         if(s[i]>='0'&&s[i]<='9')
         {
@@ -112,7 +112,7 @@ vector<long long > postfix(string s)
     return S;
 }
 
-tree * Node(long long v)
+tree * Node(int v)
 {
     tree * temp=new tree;
     temp->left = NULL;
@@ -121,7 +121,7 @@ tree * Node(long long v)
     return temp; 
 }
 
-tree * exptree(vector<long long > v)
+tree * exptree(vector<int > v)
 {
     tree *t,*t1,*t2;
 
@@ -152,14 +152,14 @@ tree * exptree(vector<long long > v)
 }
 
 
-long long eval(tree* root)  
+int eval(tree* root)  
 {  
     if (!root)  
         return 0;  
     if (!root->left && !root->right)  
         return root->i;  
-    long long l_val = eval(root->left);  
-    long long r_val = eval(root->right);  
+    int l_val = eval(root->left);  
+    int r_val = eval(root->right);  
     if (root->i==-1)  
         return l_val+r_val;  
     if (root->i==-2)  
@@ -171,37 +171,105 @@ long long eval(tree* root)
     return pow(l_val,r_val);  
 }   
 
+int value(string s)
+{
+    vector <int > S;
+    S=postfix(s);
+    tree *p=exptree(S);
+    return eval(p);
+}
+
+void evaluate(string s,unordered_map<string,int> *M)
+{
+    string s1="";
+    vector<int> dl;
+    int u=1;
+    dl.push_back(-1);
+    for(int i=0;i<s.length();i++)
+    {
+        if(u&&s[i]=='-')
+        {
+            s[i]='$';
+            s.insert(i,"0");
+        }
+        if(isop(s[i])||s[i]=='(')
+            u=1;
+        else u=0;
+        if(isop(s[i])||s[i]=='('||s[i]==')'||s[i]=='=')
+        {
+            dl.push_back(i);
+        }
+    }
+    dl.push_back(s.length());
+
+    string t,v="";
+    if(s[dl[1]]=='=')
+    {
+        v=s.substr(dl[0]+1,dl[1]-dl[0]-1);
+        dl[0]=dl[1];
+        dl.erase(dl.begin()+1);
+    }
+    for(int i=0;i<dl.size()-1;i++) 
+    {
+        t=s.substr(dl[i]+1,dl[i+1]-dl[i]-1);
+        if(!t.size())
+            {
+                s1+=s[dl[i+1]];
+                continue;
+            }
+        if(isdigit(t[0]))
+        {
+            s1+=t;
+        }
+        else
+        {
+            auto itr=M->find(t);
+            if(itr==M->end())
+            {
+                cout<<"CANT BE EVALUATED"<<endl;
+                return;
+            }
+            else
+            {
+                s1+=to_string(itr->second);
+            }
+        }
+        if(i+1<dl.size())
+        {
+            s1+=s[dl[i+1]];
+        }
+    }
+    if(v.length())
+    {
+        auto itr=M->find(v);
+        if(itr==M->end())
+        {
+            M->insert({v,value(s1)});
+        }
+        else itr->second=value(s1);
+    }
+    else
+    {
+        cout<<value(s1)<<endl;
+    }
+    
+}
 
 int main()
 {   
-    long long q;
+    int q;
     cin>>q;
     while(q--)
     {
-        long long T;
+        int T;
         cin>>T;
+        unordered_map<string,int> M;
         while(T--)
         {
             int u=1;
             string s;
             cin>>s;
-            for(int i=0;i<s.length();i++)
-            {
-                if(u&&s[i]=='-')
-                {
-                    s[i]='$';
-                    s.insert(i,"0");
-                }
-                if(isop(s[i])||s[i]=='(')
-                    u=1;
-                else 
-                    u=0;
-            }
-            vector <long long > S;
-
-            S=postfix(s);
-            tree *p=exptree(S);
-            cout<<eval(p)<<endl;
+            evaluate(s,&M);
         }
     }
 }
