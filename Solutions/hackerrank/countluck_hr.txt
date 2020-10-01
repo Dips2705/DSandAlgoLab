@@ -1,0 +1,128 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long int
+#define vi vector<ll>
+#define pi pair<ll,ll>
+#define vp vector<pi>
+#define mp map<ll,ll>
+#define pb push_back
+#define endl '\n'
+#define fast ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
+bool vis[100][100];
+ll cnt=0;
+char a[100][100];
+map<pair<ll,ll>,ll> ma;
+ll n,m,flag=0;
+
+void dfs(map<pair<ll,ll>,vector<pair<ll,ll>>> adj,pair<ll,ll> x)
+{
+   
+    if(a[x.first][x.second]=='*')
+    {
+        flag=1;
+        return;
+    }
+   
+    vis[x.first][x.second]=true;
+     
+    for(auto j:adj[x])
+    {
+        if(flag!=1){
+        if(!vis[j.first][j.second])
+        {
+          dfs(adj,j);
+         }
+        }
+        else if(flag==1)
+          break;
+        
+    }
+    
+    if(flag==1){
+    ll temp=0;
+           
+    if(x.first!=n-1  && (a[x.first+1][x.second]=='M' || a[x.first+1][x.second]=='.' || a[x.first+1][x.second]=='*'))temp++;
+    if(x.first!=0    && (a[x.first-1][x.second]=='M' || a[x.first-1][x.second]=='.' || a[x.first-1][x.second]=='*'))temp++;
+    if(x.second!=m-1 && (a[x.first][x.second+1]=='M' || a[x.first][x.second+1]=='.' || a[x.first][x.second+1]=='*'))temp++;
+    if(x.second!=0   && (a[x.first][x.second-1]=='M' || a[x.first][x.second-1]=='.' || a[x.first][x.second-1]=='*'))temp++;   
+       
+    if(temp>2 && a[x.first][x.second]!='M')       
+    cnt++;
+    else if(temp>=2 && a[x.first][x.second]=='M')
+    cnt++;}
+
+}
+
+int32_t main()
+{
+    fast;
+    ll t;
+    cin>>t;
+    while(t--)
+    {
+    
+    cin>>n>>m;
+
+    pair<ll,ll> p;
+    for(ll i=0;i<n;i++)
+    {
+        for(ll j=0;j<m;j++)
+        {cin>>a[i][j];
+        vis[i][j]=0;
+        if(a[i][j]=='M')p={i,j};
+        }
+    }
+    
+    map<pair<ll,ll>,vector<pair<ll,ll>>> adj;
+    
+    for(ll i=0;i<n;i++)
+    {
+        for(ll j=0;j<m;j++)
+        {
+        
+        if(a[i][j]=='.' || a[i][j]=='M' || a[i][j]=='*')
+        {
+            if(i!=0 && (a[i-1][j]=='.' || a[i-1][j]=='M' || a[i-1][j]=='*'))
+            adj[{i,j}].pb({i-1,j});
+            
+            if(i!=n-1 && (a[i+1][j]=='.'|| a[i+1][j]=='M'|| a[i+1][j]=='*'))
+            adj[{i,j}].pb({i+1,j});
+            
+            if(j!=0 && (a[i][j-1]=='.'|| a[i][j-1]=='M' || a[i][j-1]=='*'))
+            adj[{i,j}].pb({i,j-1});
+            
+            if(j!=m-1 && (a[i][j+1]=='.'|| a[i][j+1]=='M' || a[i][j+1]=='*'))
+            adj[{i,j}].pb({i,j+1});
+        }
+        
+        }
+    }
+    cnt=0;
+    flag=0;
+    dfs(adj,p);
+    ll pred;
+    cin>>pred;
+    if(pred==cnt)cout<<"Impressed"<<endl;
+    else
+    cout<<"Oops!"<<endl;
+   /*for(ll i=0;i<n;i++)
+    {
+        for(ll j=0;j<m;j++)
+        {
+            cout<<a[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+    cout<<endl;
+     for(ll i=0;i<n;i++)
+    {
+        for(ll j=0;j<m;j++)
+        {
+            cout<<vis[i][j]<<" ";
+        }
+        cout<<endl;
+    }*/
+    }
+    return 0;
+    
+}
