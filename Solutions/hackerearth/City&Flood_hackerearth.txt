@@ -1,0 +1,57 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long int
+#define vi vector<ll>
+#define pi pair<ll,ll>
+#define vp vector<pi>
+#define mp map<ll,ll>
+#define pb push_back
+#define endl '\n'
+#define fast ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
+vi par;
+ll parent(ll x)
+{
+if(par[x]==x)
+return x;
+
+par[x] = parent(par[x]);
+
+return par[x];
+}
+void unionxy(ll x,ll y)
+{
+    ll parx = parent(x);
+    ll pary = parent(y);
+    
+    if(parx==pary) return;
+    else
+    par[y] = x;
+}
+
+int32_t main(){
+    fast;
+    
+    ll n,k;
+    cin>>n>>k;
+    
+    for(ll i=0;i<=n;i++)
+    par.pb(i);
+    
+    for(ll i=0;i<k;i++)
+    {
+        ll x,y;
+        cin>>x>>y;
+        unionxy(x,y);
+    }
+    ll c=0;
+    for(ll i=1;i<=n;i++)
+    {
+        if(par[i]==i)c++;
+    }
+    
+          cout<<c;
+    
+    
+    return 0;
+    
+}
